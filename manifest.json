@@ -1,0 +1,19 @@
+{
+  "name": "chrome-quick-to-gmt",
+  "description": "Convert free-form dates back and forth between local TZ and GMT",
+  "version": "1.0",
+  "permissions": [
+  ],
+  "browser_action": {
+      "default_title": "chrome-quick-to-gmt",
+      "default_icon": "icon.png",
+      "default_popup": "popup.html"
+  },
+  "manifest_version": 2,
+"content_scripts": [
+    { 
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["lib/date.js" ]
+    }
+]
+}
