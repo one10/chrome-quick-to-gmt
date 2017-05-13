@@ -19,7 +19,7 @@ function convertDate(e) {
     const d = Date.parse(dStr);
 
     if (!d) {
-        document.querySelector('#out').innerHTML = `<span style="color: green; ">Orig date:</span> ${dStr} <hr><br><br>`;
+        document.querySelector('#out').innerHTML = `<span style="color: green;">Orig date:</span>${dStr}<hr><br><br>`;
         return;
     }
 
