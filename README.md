@@ -1,6 +1,9 @@
-chrome-quick-to-gmt
-=========================
+# chrome-quick-to-gmt
 
 Converts the current time (now) or any pasted parseable time/date to GMT and back, for quick lookups, logs and server time conversions
 
-TODO: currently hard-coded Pacific, switch to local TZ from browser
+# Installation
+Clone this git project into some local folder, go to chrome://extensions/ in Chrome, enable developer extensions, then hit "Load unpacked extension" and point it to the project folder. You will see a red clock icon added to the right of the Chrome address bar.
+
+# Todo
+* currently hard-coded Pacific, switch to local TZ from browser
