@@ -1,3 +1,4 @@
+// https://github.com/one10/chrome-quick-to-gmt
 
 function loadScript(scriptName) {
     var scriptEl = document.createElement('script');
@@ -11,12 +12,12 @@ function convertDate(e) {
     dStr = document.querySelector('#datebox').value;
     d = Date.parse('today');
 
-    document.querySelector('#out').innerHTML = "<font color='green'>PST > GMT:</font> " + d 
-        + "<br><font color='green'>GMT > PST</font>: " + d;
+    document.querySelector('#out').innerHTML = '<span style="color: green; ">PST > GMT:</span> ' + d
+        + '<br><span style="color: green; ">GMT > PST</span>: ' + d;
 }
 
 // action for the extension popup form
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('datebox').addEventListener('input', convertDate);
 });
 

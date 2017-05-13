@@ -5,15 +5,20 @@
   "permissions": [
   ],
   "browser_action": {
-      "default_title": "chrome-quick-to-gmt",
-      "default_icon": "icon.png",
-      "default_popup": "popup.html"
+    "default_title": "chrome-quick-to-gmt",
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
   },
   "manifest_version": 2,
-"content_scripts": [
-    { 
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["lib/date.js" ]
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "lib/date.js"
+      ]
     }
-]
+  ]
 }
