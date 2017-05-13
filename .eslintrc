@@ -1,0 +1,25 @@
+{
+  "extends": "stripe",
+  "globals": {
+    "window": true,
+    "chrome": true
+  },
+  "rules": {
+    "indent": [
+      2,
+      4
+    ],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "ignore",
+        "named": "ignore",
+        "asyncArrow": "ignore"
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      "ignore"
+    ]
+  }
+}
