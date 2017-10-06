@@ -1,0 +1,27 @@
+{
+  "name": "chrome-quick-to-gmt",
+  "version": "1.0.0",
+  "description": "A Chrome extension that converts any local dates to GMT and back",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/one10/chrome-quick-to-gmt.git"
+  },
+  "keywords": [
+    "time"
+  ],
+  "author": "github.com/one10",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/one10/chrome-quick-to-gmt/issues"
+  },
+  "homepage": "https://github.com/one10/chrome-quick-to-gmt#readme"
+}
