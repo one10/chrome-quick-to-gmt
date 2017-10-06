@@ -37,7 +37,12 @@ function convertDate(e) {
 }
 
 // action for the extension popup form
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('datebox').addEventListener('input', convertDate);
-});
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('datebox').addEventListener('input', convertDate);
+    });
+}
 
+module.exports = {
+    formatDate
+};

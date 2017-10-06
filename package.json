@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/one10/chrome-quick-to-gmt#readme",
   "devDependencies": {
+    "eslint": "^4.8.0",
+    "eslint-config-stripe": "^1.0.13",
     "mocha": "^4.0.1"
   }
 }
