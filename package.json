@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/one10/chrome-quick-to-gmt/issues"
   },
-  "homepage": "https://github.com/one10/chrome-quick-to-gmt#readme"
+  "homepage": "https://github.com/one10/chrome-quick-to-gmt#readme",
+  "devDependencies": {
+    "mocha": "^4.0.1"
+  }
 }
