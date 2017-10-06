@@ -12,5 +12,6 @@ Clone this git project into some local folder, go to chrome://extensions/ in Chr
 
 
 # Todo
-* currently hard-coded Pacific, switch to local TZ from browser
+* Currently hard-coded Pacific, switch to local TZ from browser
 * Move out node and npm stuff out of the actual extension code
+* If we use moment in the main code (not just test), can possibly parse more formats - test
