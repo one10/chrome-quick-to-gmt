@@ -8,7 +8,7 @@ const popup = require('../popup.js');
 require('../lib/date.js');
 
 describe('formatDate(inp)', function () {
-    it('should return string in format "HH:mm:ss ddd MMM DD YYYY" given a proper date', function () {
+    it('should return string in (momentjs) format "HH:mm:ss ddd MMM DD YYYY" given a proper date', function () {
         const testDate1 = Date.parse('Wed Dec 30 2015 00:08:00 GMT');
         // by defaut, formatDate will return a local date, so need to adjust it to make sure we get GMT back to compare
         const offset = testDate1.getTimezoneOffset();
@@ -17,7 +17,7 @@ describe('formatDate(inp)', function () {
 });
 
 describe('formatDate(inp)', function () {
-    it('should use (moment) format "HH:mm:ss ddd MMM DD YYYY" as its output', function () {
+    it('should use (momentjs) format "HH:mm:ss ddd MMM DD YYYY" as its output', function () {
         const testDate1 = Date.parse('Wed Dec 30 2015 00:08:00 GMT');
         const offset = testDate1.getTimezoneOffset();
         assert.ok(moment(popup.formatDate(new Date(testDate1).addMinutes(offset)), 'HH:mm:ss ddd MMM DD YYYY', true).isValid());
@@ -54,7 +54,7 @@ describe('convertDate(dateStr)', function () {
 });
 
 describe('convertDate(dateStr)', function () {
-    it('for valid input should produce (moment) format "HH:mm:ss ddd MMM DD YYYY" as its output', function () {
+    it('for valid input should produce (momentjs) format "HH:mm:ss ddd MMM DD YYYY" as its output', function () {
         const res1 = popup.convertDate('Wed Dec 30 2015 00:08:00');
         assert.ok(moment(res1[0], 'HH:mm:ss ddd MMM DD YYYY', true).isValid());
         assert.ok(moment(res1[1], 'HH:mm:ss ddd MMM DD YYYY', true).isValid());
@@ -63,7 +63,7 @@ describe('convertDate(dateStr)', function () {
 });
 
 describe('convertDate(dateStr)', function () {
-    it('for valid input should produce (moment) format "HH:mm:ss ddd MMM DD YYYY" as its output', function () {
+    it('for valid input should produce (momentjs) format "HH:mm:ss ddd MMM DD YYYY" as its output', function () {
         const res1 = popup.convertDate('Wed Dec 30 clearly some garbage here 2015 00:08:00 GMT');
         assert.equal(res1, null);
     });
