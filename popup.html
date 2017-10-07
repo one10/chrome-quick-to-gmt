@@ -3,34 +3,92 @@
 
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Local to GMT and Back</title>
-
     <style type="text/css">
         body {
             font-family: "Trebuchet MS", Helvetica, sans-serif;
+            font-size: 9pt;
             overflow: hidden;
-            margin: 5px;
-            padding: 5px;
+            margin: 3px;
+            padding: 3px;
             background: white;
+        }
+
+        .divTable {
+            display: table;
+            width: 370px;
+            table-layout: fixed;
+        }
+
+        .divTableRow {
+            display: table-row;
+        }
+
+        .divMidCell, .divFirstCell, .divTz {
+            color: #444;
+            display: table-cell;
+            padding: 1px 3px;
+
+            white-space: nowrap;
+            overflow: scroll;
+        }
+
+        .divMidCell {
+            font-family: "Courier New", monospace;
+            text-align: center;
+        }
+
+        .divFirstCell {
+            color: green;
+            background: #efefef;
+            width: 80px;
+            text-align: right;
+            padding: 2px 4px;
+        }
+
+        .divTz {
+            width: 90px;
+        }
+
+        .divTableBody {
+            display: table-row-group;
         }
     </style>
 
     <script src="popup.js" type="text/javascript"></script>
 </head>
 <body>
-<div style="width:300px;">
-    <small><span style="color: green; ">Enter a date:</span></small>
-    <div style="overflow: hidden; padding-right: .5em;">
-
-        <label for="datebox"></label><input id="datebox" style="width: 100%;"/>
-
+<div style="width: 370px;">
+    <div>
+        <label for="datebox">Enter a date to get GMT or local conversion:</label>
+        <input id="datebox" style="width: 100%; margin: 5px;">
     </div>
 </div>
-<div style='font-family: Courier New,serif' id="out">
-    &nbsp;
-    <hr>
-    &nbsp;<br>
-    &nbsp;<br>
+
+<div class="divTable">
+    <div class="divTableBody">
+        <div class="divTableRow">
+            <div class="divFirstCell">Given date:</div>
+            <div class="divMidCell" id="origDate">&nbsp;</div>
+            <div class="divTz">&nbsp;</div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="divTable">
+    <div class="divTableBody">
+        <div class="divTableRow">
+            <div class="divFirstCell">Local &rarr; GMT:</div>
+            <div class="divMidCell" id="localToGmtResult">&nbsp;</div>
+            <div class="divTz" id="gmt">&nbsp;</div>
+        </div>
+        <div class="divTableRow">
+            <div class="divFirstCell">GMT &rarr; Local:</div>
+            <div class="divMidCell" id="gmtToLocalResult">&nbsp;</div>
+            <div class="divTz" id="localTz">&nbsp;</div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

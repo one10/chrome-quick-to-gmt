@@ -1,11 +1,5 @@
 // https://github.com/one10/chrome-quick-to-gmt
 
-function loadScript(scriptName) {
-    const scriptEl = document.createElement('script');
-    scriptEl.src = chrome.extension.getURL(scriptName);
-    document.head.appendChild(scriptEl);
-}
-
 // given a date, e.g.: Date.parse('Wed Dec 30 2015 00:08:00 GMT')
 // output a string, e.g.: '00:08:00 Wed Dec 30 2015'
 function formatDate(inp) {
@@ -19,32 +13,41 @@ function convertDate(dateStr) {
     if (!inpDate) {
         return null;
     }
-    // first, treat this date as Pacific. Then convert to GMT
-    const offset = (Date.today().isDaylightSavingTime()) ? 7 : 8;
+    // first, treat this date as local. Then convert to GMT
+    const offset = Date.today().getTimezoneOffset();
 
     const originalDate = formatDate(new Date(inpDate.getTime()));
-    const gmtDate = formatDate(new Date(inpDate.getTime()).addHours(offset));
-    const localDate = formatDate(new Date(inpDate.getTime()).addHours(-offset));
+    const gmtDate = formatDate(new Date(inpDate.getTime()).addMinutes(offset));
+    const localDate = formatDate(new Date(inpDate.getTime()).addMinutes(-offset));
 
     return [originalDate, gmtDate, localDate];
 }
 
-function prepConvertDate() {
+function loadScript(scriptName) {
+    const scriptEl = document.createElement('script');
+    scriptEl.src = chrome.extension.getURL(scriptName);
+    document.head.appendChild(scriptEl);
+}
+
+function updateDocument(origDate, localToGmtResult = '', gmtToLocalResult = '', localTz = '', gmt = '') {
+    document.querySelector('#origDate').innerHTML = origDate;
+    document.querySelector('#localToGmtResult').innerHTML = localToGmtResult;
+    document.querySelector('#gmtToLocalResult').innerHTML = gmtToLocalResult;
+    document.querySelector('#localTz').innerHTML = localTz;
+    document.querySelector('#gmt').innerHTML = gmt;
+}
+
+function prepConvertDate(event, updateDocCallback = updateDocument) {
     loadScript('lib/date.js');
 
     const dateStr = document.querySelector('#datebox').value;
-    const conversionResults = convertDate(dateStr);
+    const convRes = convertDate(dateStr);
 
-    if (!conversionResults) {
-        document.querySelector('#out').innerHTML = `<span style="color: green;">Orig date:</span>${dateStr}<hr><br><br>`;
+    if (!convRes) {
+        updateDocCallback(dateStr, '', '', '', '');
         return;
     }
-
-    const localTz = (Date.today().isDaylightSavingTime()) ? 'PDT' : 'PST';
-    document.querySelector('#out').innerHTML =
-        `<span style="color: green; ">Orig date:</span> ${conversionResults[0]} <hr>
-        <span style="color: green; "> ${localTz} > GMT:</span> ${conversionResults[1]} GMT <br>
-        <span style="color: green; ">GMT > ${localTz}</span>: ${conversionResults[2]} ${localTz}`;
+    updateDocCallback(convRes[0], convRes[1], convRes[2], Intl.DateTimeFormat().resolvedOptions().timeZone, 'GMT');
 }
 
 // action for the extension popup form
