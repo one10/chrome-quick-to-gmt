@@ -12,6 +12,6 @@ Clone this git project into some local folder, go to chrome://extensions/ in Chr
 
 
 # Todo
-* Currently hard-coded Pacific, switch to local TZ from browser
 * Move out node and npm stuff out of the actual extension code
-* If we use moment in the main code (not just test), can possibly parse more formats - test
+* If we use momentjs in the main code (not just in tests), we can possibly parse more formats - test
+* Add unit tests to ensure updateDocCallback is called with the proper values for different inputs
