@@ -15,3 +15,4 @@ Clone this git project into some local folder, go to chrome://extensions/ in Chr
 * Move out node and npm stuff out of the actual extension code
 * If we use momentjs in the main code (not just in tests), we can possibly parse more formats - test
 * Add unit tests to ensure updateDocCallback is called with the proper values for different inputs
+* Output only the short version of the timezone. "America/Los_Angeles" looks really human-hostile compared to "PST"
