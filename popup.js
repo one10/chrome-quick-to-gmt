@@ -57,7 +57,7 @@ if (typeof document !== 'undefined') {
     });
 }
 
-module.exports = {
-    formatDate,
-    convertDate
-};
+//module.exports = {
+//    formatDate,
+//    convertDate
+//};
