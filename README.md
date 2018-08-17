@@ -12,6 +12,7 @@ Clone this git project into some local folder, go to chrome://extensions/ in Chr
 
 
 # Todo
+* add timestamp seconds and timestamp milliseconds conversions
 * Move out node and npm stuff out of the actual extension code
 * If we use momentjs in the main code (not just in tests), we can possibly parse more formats - test
 * Add unit tests to ensure updateDocCallback is called with the proper values for different inputs
