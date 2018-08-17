@@ -1,4 +1,4 @@
-# chrome-quick-to-gmt
+# Super-Quick Timezone Conversions and Lookups in Chrome
 
 A Chrome extension that converts the current time (now) or any pasted parseable time/date to GMT and back - for quick lookups, logs and server time conversions.
 
