@@ -6,8 +6,7 @@
   },
   "rules": {
     "indent": [
-      2,
-      4
+      2
     ],
     "space-before-function-paren": [
       "error",
@@ -20,5 +19,8 @@
     "comma-dangle": [
       "off"
     ]
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017
   }
 }
