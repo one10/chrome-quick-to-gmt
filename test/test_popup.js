@@ -1,17 +1,15 @@
 // https://github.com/one10/chrome-quick-to-gmt
 
-const assert = require('assert');
-const moment = require('moment');
-const fs = require('fs');
+import assert from 'assert';
+import moment from 'moment';
+import fs from 'fs';
+import { formatDate, convertDate } from '../popup.js';
 
 // Load date library extensions first
 eval(fs.readFileSync('./lib/date-1.0-alpha-1.js', 'utf8'));
 
 // Make moment available globally for popup.js
 global.moment = moment;
-
-// Import functions from popup.js
-const { formatDate, convertDate } = require('../popup.js');
 
 describe('formatDate(inp)', function() {
   it('should return string in (momentjs) format "HH:mm:ss ddd MMM DD YYYY" given a proper date', function() {
