@@ -1,17 +1,21 @@
 // https://github.com/one10/chrome-quick-to-gmt
 
-/* global describe, it */
-/* global formatDate, convertDate  */
-
 const assert = require('assert');
 const moment = require('moment');
+const fs = require('fs');
 
-// Import functions from popup-module
-const { formatDate, convertDate } = require('./popup-module.js');
+// Load date library extensions first
+eval(fs.readFileSync('./lib/date-1.0-alpha-1.js', 'utf8'));
+
+// Make moment available globally for popup.js
+global.moment = moment;
+
+// Import functions from popup.js
+const { formatDate, convertDate } = require('../popup.js');
 
 describe('formatDate(inp)', function() {
   it('should return string in (momentjs) format "HH:mm:ss ddd MMM DD YYYY" given a proper date', function() {
-    const testDate1 = Date.parse('Wed Dec 30 2015 00:08:00 GMT');
+    const testDate1 = new Date(Date.parse('Wed Dec 30 2015 00:08:00 GMT'));
     // by defaut, formatDate will return a local date, so need to adjust it to make sure we get GMT back to compare
     const offset = testDate1.getTimezoneOffset();
     assert.equal(formatDate(new Date(testDate1).addMinutes(offset)), '00:08:00 Wed Dec 30 2015');
@@ -20,7 +24,7 @@ describe('formatDate(inp)', function() {
 
 describe('formatDate(inp)', function() {
   it('should use (momentjs) format "HH:mm:ss ddd MMM DD YYYY" as its output', function() {
-    const testDate1 = Date.parse('Wed Dec 30 2015 00:08:00 GMT');
+    const testDate1 = new Date(Date.parse('Wed Dec 30 2015 00:08:00 GMT'));
     const offset = testDate1.getTimezoneOffset();
     assert.ok(moment(formatDate(new Date(testDate1).addMinutes(offset)), 'HH:mm:ss ddd MMM DD YYYY', true).isValid());
   });
