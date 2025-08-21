@@ -5,11 +5,9 @@
 
 const assert = require('assert');
 const moment = require('moment');
-const fs = require('fs');
 
-// this is strictly for test, eval is ok
-eval(fs.readFileSync('./popup.js', 'utf8')); // eslint-disable-line no-eval
-eval(fs.readFileSync('./lib/date-1.0-alpha-1.js', 'utf8')); // eslint-disable-line no-eval
+// Import functions from popup-module
+const { formatDate, convertDate } = require('./popup-module.js');
 
 describe('formatDate(inp)', function() {
   it('should return string in (momentjs) format "HH:mm:ss ddd MMM DD YYYY" given a proper date', function() {
