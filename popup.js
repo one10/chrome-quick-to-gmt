@@ -17,20 +17,25 @@ function formatDate(inp) {
 // given a date string in any parseable format
 // return an array: [originalDate, gmtDate, localDate]
 function convertDate(input) {
-  let inpDate = Date.parse(input);
-  if (!inpDate) {
+  // Check if input is a timestamp first, before Date.parse
+  const isTimestamp = /^\d+$/.test(input) || Number.isInteger(input);
+  let inpDate;
+  
+  if (isTimestamp) {
     try {
-      const isTimestamp = /^\d+$/.test(input) || Number.isInteger(input);
-      if (isTimestamp) {
-        let timestamp = parseInt(input, 10);
-
-        // Note: this will be invalid if we are passed a legitimate low value of milliseconds, or a high number of secs.
-        if (timestamp < 9999999999) {
-          timestamp *= 1000;
-        }
-
-        inpDate = new Date(timestamp);
-      } else {
+      let timestamp = parseInt(input, 10);
+      // Note: this will be invalid if we are passed a legitimate low value of milliseconds, or a high number of secs.
+      if (timestamp < 9999999999) {
+        timestamp *= 1000;
+      }
+      inpDate = new Date(timestamp);
+    } catch (e) {
+      return null;
+    }
+  } else {
+    inpDate = Date.parse(input);
+    if (!inpDate) {
+      try {
         // we can't pass a date format string, because we don't know what it is! hence the suppression.
         moment.suppressDeprecationWarnings = true;
         const m = moment(input);
@@ -38,20 +43,30 @@ function convertDate(input) {
           return null;
         }
         inpDate = m.toDate();
+      } catch (e) {
+        return null;
       }
-    } catch (e) {
-      return null;
     }
   }
 
   if (!inpDate) {
     return null;
   }
-  // first, treat this date as local. Then convert to GMT
-  const offset = new Date(inpDate)
-    .getTimezoneOffset();
 
   const originalDateVal = new Date(inpDate);
+  
+  // For Unix timestamps, the date represents UTC time, 
+  // but we want to show it as local time in the original field
+  if (isTimestamp) {
+    const originalDate = formatDate(originalDateVal);  // Show as local time
+    const offset = originalDateVal.getTimezoneOffset();
+    const gmtDate = formatDate(new Date(originalDateVal.getTime() + offset * 60000));  // Convert to GMT display
+    const localDate = formatDate(new Date(originalDateVal.getTime() - offset * 60000));  // Convert to local display
+    return [originalDate, gmtDate, localDate];
+  }
+  
+  // For other date formats, treat as local time and convert
+  const offset = originalDateVal.getTimezoneOffset();
   const originalDate = formatDate(originalDateVal);
   const gmtDate = formatDate(new Date(originalDateVal.getTime() + offset * 60000));
   const localDate = formatDate(new Date(originalDateVal.getTime() - offset * 60000));
@@ -96,4 +111,4 @@ if (typeof document !== 'undefined') {
   });
 }
 
-export { formatDate, convertDate };
+export { formatDate, convertDate, loadScript, updateDocument, prepConvertDate };

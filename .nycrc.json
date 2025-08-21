@@ -1,0 +1,16 @@
+{
+  "all": true,
+  "include": [
+    "popup.js"
+  ],
+  "exclude": [
+    "test/**/*",
+    "lib/**/*", 
+    "node_modules/**/*",
+    "instrumented/**/*"
+  ],
+  "reporter": [
+    "text",
+    "html"
+  ]
+}
