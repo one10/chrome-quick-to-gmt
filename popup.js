@@ -111,4 +111,4 @@ if (typeof document !== 'undefined') {
   });
 }
 
-export { formatDate, convertDate };
+export { formatDate, convertDate, loadScript, updateDocument, prepConvertDate };
