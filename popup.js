@@ -17,22 +17,25 @@ function formatDate(inp) {
 // given a date string in any parseable format
 // return an array: [originalDate, gmtDate, localDate]
 function convertDate(input) {
-  let inpDate = Date.parse(input);
-  let isTimestamp = false;
+  // Check if input is a timestamp first, before Date.parse
+  const isTimestamp = /^\d+$/.test(input) || Number.isInteger(input);
+  let inpDate;
   
-  if (!inpDate) {
+  if (isTimestamp) {
     try {
-      isTimestamp = /^\d+$/.test(input) || Number.isInteger(input);
-      if (isTimestamp) {
-        let timestamp = parseInt(input, 10);
-
-        // Note: this will be invalid if we are passed a legitimate low value of milliseconds, or a high number of secs.
-        if (timestamp < 9999999999) {
-          timestamp *= 1000;
-        }
-
-        inpDate = new Date(timestamp);
-      } else {
+      let timestamp = parseInt(input, 10);
+      // Note: this will be invalid if we are passed a legitimate low value of milliseconds, or a high number of secs.
+      if (timestamp < 9999999999) {
+        timestamp *= 1000;
+      }
+      inpDate = new Date(timestamp);
+    } catch (e) {
+      return null;
+    }
+  } else {
+    inpDate = Date.parse(input);
+    if (!inpDate) {
+      try {
         // we can't pass a date format string, because we don't know what it is! hence the suppression.
         moment.suppressDeprecationWarnings = true;
         const m = moment(input);
@@ -40,9 +43,9 @@ function convertDate(input) {
           return null;
         }
         inpDate = m.toDate();
+      } catch (e) {
+        return null;
       }
-    } catch (e) {
-      return null;
     }
   }
 
