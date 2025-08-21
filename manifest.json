@@ -4,12 +4,12 @@
   "version": "1.0",
   "permissions": [
   ],
-  "browser_action": {
+  "action": {
     "default_title": "chrome-quick-to-gmt",
     "default_icon": "img/icon128.png",
     "default_popup": "popup.html"
   },
-  "manifest_version": 2,
+  "manifest_version": 3,
   "content_scripts": [
     {
       "matches": [
@@ -26,5 +26,14 @@
     "16": "img/icon16.png",
     "48": "img/icon48.png",
     "128": "img/icon128.png"
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "lib/date-1.0-alpha-1.js",
+        "lib/moment-2.22.2.min.js"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }

@@ -40,7 +40,8 @@ function convertDate(input) {
     return null;
   }
   // first, treat this date as local. Then convert to GMT
-  const offset = Date.today().getTimezoneOffset();
+  const offset = Date.today()
+    .getTimezoneOffset();
 
   const originalDate = formatDate(new Date(inpDate.getTime()));
   const gmtDate = formatDate(new Date(inpDate.getTime()).addMinutes(offset));
@@ -51,7 +52,7 @@ function convertDate(input) {
 
 function loadScript(scriptName) {
   const scriptEl = document.createElement('script');
-  scriptEl.src = chrome.extension.getURL(scriptName);
+  scriptEl.src = chrome.runtime.getURL(scriptName);
   document.head.appendChild(scriptEl);
 }
 
@@ -74,12 +75,14 @@ function prepConvertDate(event, updateDocCallback = updateDocument) {
     updateDocCallback(dateStr, '', '', '', '');
     return;
   }
-  updateDocCallback(convRes[0], convRes[1], convRes[2], Intl.DateTimeFormat().resolvedOptions().timeZone, 'GMT');
+  updateDocCallback(convRes[0], convRes[1], convRes[2], Intl.DateTimeFormat()
+    .resolvedOptions().timeZone, 'GMT');
 }
 
 // action for the extension popup form
 if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('datebox').addEventListener('input', prepConvertDate);
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('datebox')
+      .addEventListener('input', prepConvertDate);
   });
 }
