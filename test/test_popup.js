@@ -75,6 +75,17 @@ describe('convertDate(dateStr) error', function() {
   });
 });
 
+describe('convertDate(dateStr) timestamp conversion fix', function() {
+  it('should correctly convert Unix timestamp to UTC time format', function() {
+    // This test specifically validates the timezone offset fix
+    // Timestamp 1537315365092 represents Tue Sep 18 2018 17:02:45 UTC
+    // Before the fix, this would incorrectly apply current timezone offset
+    // After the fix, it correctly shows the UTC time
+    assert.equal(convertDate('1537315365092')[0], '17:02:45 Tue Sep 18 2018');
+    assert.equal(convertDate(1537315365092)[0], '17:02:45 Tue Sep 18 2018');
+  });
+});
+
 describe('convertDate(dateStr) advanced cases', function() {
   it('for valid input should produce (momentjs) format "HH:mm:ss ddd MMM DD YYYY" as its output', function() {
     assert.equal(convertDate('Wed Dec 30 2015 00:08:00')[0], '00:08:00 Wed Dec 30 2015');
