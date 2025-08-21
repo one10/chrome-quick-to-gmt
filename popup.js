@@ -48,7 +48,7 @@ function convertDate(input) {
     return null;
   }
   // first, treat this date as local. Then convert to GMT
-  const offset = new Date()
+  const offset = new Date(inpDate)
     .getTimezoneOffset();
 
   const originalDateVal = new Date(inpDate);
