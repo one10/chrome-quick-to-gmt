@@ -3,7 +3,15 @@
 // given a date, e.g.: Date.parse('Wed Dec 30 2015 00:08:00 GMT')
 // output a string, e.g.: '00:08:00 Wed Dec 30 2015'
 function formatDate(inp) {
-  return inp.toString('HH:mm:ss ddd MMM dd yyyy');
+  const hours = inp.getHours().toString().padStart(2, '0');
+  const minutes = inp.getMinutes().toString().padStart(2, '0');
+  const seconds = inp.getSeconds().toString().padStart(2, '0');
+  const weekday = inp.toLocaleDateString('en-US', { weekday: 'short' });
+  const month = inp.toLocaleDateString('en-US', { month: 'short' });
+  const day = inp.getDate().toString().padStart(2, '0');
+  const year = inp.getFullYear();
+
+  return `${hours}:${minutes}:${seconds} ${weekday} ${month} ${day} ${year}`;
 }
 
 // given a date string in any parseable format
@@ -40,18 +48,20 @@ function convertDate(input) {
     return null;
   }
   // first, treat this date as local. Then convert to GMT
-  const offset = Date.today().getTimezoneOffset();
+  const offset = new Date()
+    .getTimezoneOffset();
 
-  const originalDate = formatDate(new Date(inpDate.getTime()));
-  const gmtDate = formatDate(new Date(inpDate.getTime()).addMinutes(offset));
-  const localDate = formatDate(new Date(inpDate.getTime()).addMinutes(-offset));
+  const originalDateVal = new Date(inpDate);
+  const originalDate = formatDate(originalDateVal);
+  const gmtDate = formatDate(new Date(originalDateVal.getTime() + offset * 60000));
+  const localDate = formatDate(new Date(originalDateVal.getTime() - offset * 60000));
 
   return [originalDate, gmtDate, localDate];
 }
 
 function loadScript(scriptName) {
   const scriptEl = document.createElement('script');
-  scriptEl.src = chrome.extension.getURL(scriptName);
+  scriptEl.src = chrome.runtime.getURL(scriptName);
   document.head.appendChild(scriptEl);
 }
 
@@ -74,12 +84,16 @@ function prepConvertDate(event, updateDocCallback = updateDocument) {
     updateDocCallback(dateStr, '', '', '', '');
     return;
   }
-  updateDocCallback(convRes[0], convRes[1], convRes[2], Intl.DateTimeFormat().resolvedOptions().timeZone, 'GMT');
+  updateDocCallback(convRes[0], convRes[1], convRes[2], Intl.DateTimeFormat()
+    .resolvedOptions().timeZone, 'GMT');
 }
 
 // action for the extension popup form
 if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('datebox').addEventListener('input', prepConvertDate);
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('datebox')
+      .addEventListener('input', prepConvertDate);
   });
 }
+
+export { formatDate, convertDate };
