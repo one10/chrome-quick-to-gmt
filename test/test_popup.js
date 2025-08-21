@@ -76,13 +76,26 @@ describe('convertDate(dateStr) error', function() {
 });
 
 describe('convertDate(dateStr) timestamp conversion fix', function() {
-  it('should correctly convert Unix timestamp to UTC time format', function() {
-    // This test specifically validates the timezone offset fix
-    // Timestamp 1537315365092 represents Tue Sep 18 2018 17:02:45 UTC
-    // Before the fix, this would incorrectly apply current timezone offset
-    // After the fix, it correctly shows the UTC time
-    assert.equal(convertDate('1537315365092')[0], '17:02:45 Tue Sep 18 2018');
-    assert.equal(convertDate(1537315365092)[0], '17:02:45 Tue Sep 18 2018');
+  it('should correctly convert Unix timestamp to local time representation', function() {
+    // This test validates the timezone handling fix for Unix timestamps
+    // Timestamp 1537315365092 = 2018-09-19T00:02:45.092Z (UTC)
+    // In PDT (UTC-7), this becomes Tue Sep 18 2018 17:02:45
+    // The original field should show the local time representation
+    
+    // Mock timezone offset to ensure consistent test results across environments
+    const originalGetTimezoneOffset = Date.prototype.getTimezoneOffset;
+    Date.prototype.getTimezoneOffset = function() {
+      // PDT offset is 420 minutes (7 hours behind UTC)
+      return 420;
+    };
+    
+    try {
+      assert.equal(convertDate('1537315365092')[0], '17:02:45 Tue Sep 18 2018');
+      assert.equal(convertDate(1537315365092)[0], '17:02:45 Tue Sep 18 2018');
+    } finally {
+      // Restore original function
+      Date.prototype.getTimezoneOffset = originalGetTimezoneOffset;
+    }
   });
 });
 

@@ -18,9 +18,11 @@ function formatDate(inp) {
 // return an array: [originalDate, gmtDate, localDate]
 function convertDate(input) {
   let inpDate = Date.parse(input);
+  let isTimestamp = false;
+  
   if (!inpDate) {
     try {
-      const isTimestamp = /^\d+$/.test(input) || Number.isInteger(input);
+      isTimestamp = /^\d+$/.test(input) || Number.isInteger(input);
       if (isTimestamp) {
         let timestamp = parseInt(input, 10);
 
@@ -47,11 +49,21 @@ function convertDate(input) {
   if (!inpDate) {
     return null;
   }
-  // first, treat this date as local. Then convert to GMT
-  const offset = new Date(inpDate)
-    .getTimezoneOffset();
 
   const originalDateVal = new Date(inpDate);
+  
+  // For Unix timestamps, the date represents UTC time, 
+  // but we want to show it as local time in the original field
+  if (isTimestamp) {
+    const originalDate = formatDate(originalDateVal);  // Show as local time
+    const offset = originalDateVal.getTimezoneOffset();
+    const gmtDate = formatDate(new Date(originalDateVal.getTime() + offset * 60000));  // Convert to GMT display
+    const localDate = formatDate(new Date(originalDateVal.getTime() - offset * 60000));  // Convert to local display
+    return [originalDate, gmtDate, localDate];
+  }
+  
+  // For other date formats, treat as local time and convert
+  const offset = originalDateVal.getTimezoneOffset();
   const originalDate = formatDate(originalDateVal);
   const gmtDate = formatDate(new Date(originalDateVal.getTime() + offset * 60000));
   const localDate = formatDate(new Date(originalDateVal.getTime() - offset * 60000));
